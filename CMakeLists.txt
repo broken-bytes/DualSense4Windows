@@ -4,6 +4,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(ControllerKit)
 
+
+set(CMAKE_SUPPRESS_REGENERATION true)
+
 set(src_include
     include/Controller.hxx
 	include/XOne.hxx
