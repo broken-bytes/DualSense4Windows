@@ -14,19 +14,15 @@ You'll need to have [ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
 
 ## Building
 ### Prerequisites
-CMake(tested with 3.14)
-
-Visual Studio 2019 (Any Edition)
-
-[ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
-
-[ViGEmClient](https://github.com/ViGEm/ViGEmClient)
-
-[hidapi](https://github.com/libusb/hidapi)
+* CMake(tested with 3.14)
+* Visual Studio 2019 (Any Edition)
+* [ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
+* [ViGEmClient](https://github.com/ViGEm/ViGEmClient)
+* [hidapi](https://github.com/libusb/hidapi)
 
 ### Build Steps
-First, create a dynamic library build for hidapi and ViGEmClient.
-Place `hidapi.lib` and `ViGEmClient.lib` inside the lib folder of the project.
-Inside the root folder of the project run `CMake -G "Visual Studio 16 2019"`
-Open the Visual Studio Solution created and create a new build
-In order to run your new build, you need to provide `hidapi.dll` and `ViGEmClient.dll` at the location of the `DualSense4Windows.exe`.
+* First, create a dynamic library build for hidapi and ViGEmClient.
+* Place `hidapi.lib` and `ViGEmClient.lib` inside the lib folder of the project.
+* Inside the root folder of the project run `CMake -G "Visual Studio 16 2019"`
+* Open the Visual Studio Solution created and create a new build
+* In order to run your new build, you need to provide `hidapi.dll` and `ViGEmClient.dll` at the location of the `DualSense4Windows.exe`.
