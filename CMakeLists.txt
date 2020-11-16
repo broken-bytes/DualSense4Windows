@@ -8,22 +8,23 @@ project(ControllerKit)
 set(CMAKE_SUPPRESS_REGENERATION true)
 
 set(src_include
-    include/Controller.hxx
-	include/XOne.hxx
-	include/DualShock4.hxx
+	include/ControllerKit.hxx
+	include/DualSense.hxx
+	include/Math.hxx
 )
 
 set(src
-	src/Controller.cxx
-	src/XOne.cxx
-	src/DualShock4.cxx
-	src/Interface.hxx
+	src/ControllerKit.cxx
+	src/DualSense.cxx
 )
 
-set(src_win
-	src/win64/Interface.cxx
-)
+#add_library(Win64 STATIC ${src} ${src_win})
 
-include_directories(${src_include})
-add_library(Win64 STATIC ${src} ${src_win})
+add_executable(Win64 ${src} ${src_include})
+#target_link_directories(Win64 PUBLIC lib/)
+target_link_libraries(Win64 ${CMAKE_SOURCE_DIR}/lib/hidapi.lib)
+target_link_libraries(Win64 setupapi)
+target_link_libraries(Win64 ${CMAKE_SOURCE_DIR}/lib/ViGEmClient.lib)
+target_include_directories(Win64 PUBLIC external/)
+target_include_directories(Win64 PRIVATE include/)
 
