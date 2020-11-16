@@ -18,13 +18,11 @@ set(src
 	src/DualSense.cxx
 )
 
-#add_library(Win64 STATIC ${src} ${src_win})
-
-add_executable(Win64 ${src} ${src_include})
+add_executable(DualSense4Windows ${src} ${src_include})
 #target_link_directories(Win64 PUBLIC lib/)
-target_link_libraries(Win64 ${CMAKE_SOURCE_DIR}/lib/hidapi.lib)
-target_link_libraries(Win64 setupapi)
-target_link_libraries(Win64 ${CMAKE_SOURCE_DIR}/lib/ViGEmClient.lib)
-target_include_directories(Win64 PUBLIC external/)
-target_include_directories(Win64 PRIVATE include/)
+target_link_libraries(DualSense4Windows ${CMAKE_SOURCE_DIR}/lib/hidapi.lib)
+target_link_libraries(DualSense4Windows setupapi)
+target_link_libraries(DualSense4Windows ${CMAKE_SOURCE_DIR}/lib/ViGEmClient.lib)
+target_include_directories(DualSense4Windows PUBLIC external/)
+target_include_directories(DualSense4Windows PRIVATE include/)
 
