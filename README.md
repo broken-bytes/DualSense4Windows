@@ -8,7 +8,7 @@ DualSense Support for any game based on emulation provided by [ViGEm](https://gi
   * Adaptive trigger rumble based on sound 
 
 ## Installation
-Just grab the latest release under github releases and run it.
+Just grab the latest release under [releases](https://github.com/broken-bytes/DualSense4Windows/releases) and run it.
 
 You'll need to have [ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
 
