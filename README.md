@@ -9,14 +9,19 @@ DualSense Support for any game based on emulation provided by [ViGEm](https://gi
 
 ## Installation
 Just grab the latest release under github releases and run it.
+
 You'll need to have [ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
 
 ## Building
 ### Prerequisites
 CMake(tested with 3.14)
+
 Visual Studio 2019 (Any Edition)
+
 [ViGEm Bus](https://github.com/ViGEm/ViGEmBus) installed.
-[ViGEmCLient](https://github.com/ViGEm/ViGEmClient)
+
+[ViGEmClient](https://github.com/ViGEm/ViGEmClient)
+
 [hidapi](https://github.com/libusb/hidapi)
 
 ### Build Steps
