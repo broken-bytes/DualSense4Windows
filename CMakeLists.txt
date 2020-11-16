@@ -11,15 +11,19 @@ set(src_include
 	include/ControllerKit.hxx
 	include/DualSense.hxx
 	include/Math.hxx
+	include/Utils.hxx
 )
 
 set(src
 	src/ControllerKit.cxx
 	src/DualSense.cxx
+	src/Utils.cxx
 )
 
-add_executable(DualSense4Windows ${src} ${src_include})
-#target_link_directories(Win64 PUBLIC lib/)
+add_executable(DualSense4Windows WIN32 ${src} ${src_include})
+target_link_directories(DualSense4Windows PUBLIC lib/)
+target_link_libraries(DualSense4Windows Xinput.lib)
+target_link_libraries(DualSense4Windows AppCore.lib)
 target_link_libraries(DualSense4Windows ${CMAKE_SOURCE_DIR}/lib/hidapi.lib)
 target_link_libraries(DualSense4Windows setupapi)
 target_link_libraries(DualSense4Windows ${CMAKE_SOURCE_DIR}/lib/ViGEmClient.lib)

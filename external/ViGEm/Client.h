@@ -22,9 +22,7 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 */
 
-
-#ifndef ViGEmClient_h__
-#define ViGEmClient_h__
+#pragma once
 
 #ifdef __cplusplus
 extern "C" {
@@ -498,4 +496,3 @@ extern "C" {
 }
 #endif
 
-#endif // ViGEmClient_h__
