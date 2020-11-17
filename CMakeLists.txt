@@ -16,6 +16,7 @@ set(SRC_INC
 	include/App.hxx
 	include/Interface.hxx
 	include/Types.hxx
+	include/Discord.hxx
 )
 
 set(SRC
@@ -24,6 +25,7 @@ set(SRC
 	src/Utils.cxx
 	src/App.cxx
 	src/Interface.cxx
+	src/Discord.cxx
 )
 
 set(ASSETS "$<TARGET_FILE_DIR:${APP}>/assets") 
@@ -35,9 +37,10 @@ target_link_libraries(${APP} AppCore.lib)
 target_link_libraries(${APP} Ultralight.lib)
 target_link_libraries(${APP} UltralightCore.lib)
 target_link_libraries(${APP} WebCore.lib)
-target_link_libraries(${APP} ${CMAKE_SOURCE_DIR}/lib/hidapi.lib)
+target_link_libraries(${APP} hidapi.lib)
 target_link_libraries(${APP} setupapi)
-target_link_libraries(${APP} ${CMAKE_SOURCE_DIR}/lib/ViGEmClient.lib)
+target_link_libraries(${APP} ViGEmClient.lib)
+target_link_libraries(${APP} discord_game_sdk.dll.lib)
 target_include_directories(${APP} PUBLIC external/)
 target_include_directories(${APP} PRIVATE include/)
 

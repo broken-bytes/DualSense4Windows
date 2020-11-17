@@ -11,7 +11,7 @@
 #include "Utils.hxx"
 #include "App.hxx"
 #include "Interface.hxx"
-
+#include "Discord.hxx"
 
 using namespace BrokenBytes::DualSense4Windows;
 
@@ -40,6 +40,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
+
+	auto wrapper = 
+		BrokenBytes::DualSense4Windows::Discord::Wrapper::Create();
+	auto mute = wrapper->Mute();
 	Init();
 	return 1;
 	
