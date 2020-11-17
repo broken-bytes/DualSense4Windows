@@ -1,18 +1,24 @@
 #pragma once
+
+#define WIN32_LEAN_AND_MEAN
+#include <Windows.h>
 #include <functional>
 #include <thread>
 #include <hidapi/hidapi.h>
+#include <ViGEm/Client.h>
 
-#include "ControllerKit.hxx"
+#include "Types.hxx"
 
 
-namespace BrokenBytes::ControllerKit {
+namespace BrokenBytes::DualSense4Windows {
 	/// <summary>
 	/// The rate at which to send reports to the DS
 	/// </summary>
 	constexpr uint8_t DS_SENDRATE = 50;
-
-	enum class ControllerMode;
+	/// <summary>
+	/// The Default mode at which DualSense operates
+	/// </summary>
+	constexpr ControllerMode DEFAULT_MODE = ControllerMode::XBoxOne;
 
 	struct DS_LIGHTBARCOLOR {
 		uint8_t R;
@@ -103,6 +109,7 @@ namespace BrokenBytes::ControllerKit {
 		/// Creates a new DS4 instance based on HID path
 		/// </summary>
 		/// <param name="path"></param>
+		/// <param name="controllerNumber">The number of the controller</param>
 		DualSense(char* path, uint8_t controllerNumber);
 
 		/// <summary>
@@ -118,6 +125,12 @@ namespace BrokenBytes::ControllerKit {
 		[[nodiscard]] char* Path() const;
 
 		[[nodiscard]] PVIGEM_TARGET Target() const;
+
+		/// <summary>
+		/// Gets the MAC address of the device
+		/// </summary>
+		/// <returns>The mac as a string</returns>
+		std::string MAC() const;
 
 		/// <summary>
 		/// Sets the color of the LED

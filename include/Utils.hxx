@@ -1,15 +1,8 @@
 #pragma once
 
+#include "DualSense.hxx"
 
-namespace BrokenBytes {
-	namespace ControllerKit {
-		struct DS_REPORT;
-		struct DS_INPUT;
-	}
-
-}
-
-namespace BrokenBytes::ControllerKit::Utils {
+namespace BrokenBytes::DualSense4Windows::Utils {
 
 	/// <summary>
 	/// Maps a DualSense report to a DS4 Report

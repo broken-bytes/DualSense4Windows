@@ -11,7 +11,7 @@
 uint8_t reportID = 0x00;
 uint8_t protocolID = 0x00;
 
-namespace BrokenBytes::ControllerKit {
+namespace BrokenBytes::DualSense4Windows {
 	DualSense::DualSense(char* path, uint8_t controllerNumber) {
 		_path = path;
 		_device = hid_open_path(_path);
@@ -35,6 +35,20 @@ namespace BrokenBytes::ControllerKit {
 
 	PVIGEM_TARGET DualSense::Target() const {
 		return _target;
+	}
+
+	std::string DualSense::MAC() const {
+		wchar_t* str = nullptr;
+		
+		
+		if(hid_get_manufacturer_string(_device, str, 64) != 0) {
+			str = L"";
+		}
+
+		auto err = hid_error(_device);
+		wprintf(err);
+		std::wstring ws(str);
+		return std::string(ws.begin(), ws.end());
 	}
 
 	void DualSense::SetLEDColor(DS_LIGHTBARCOLOR color) {
