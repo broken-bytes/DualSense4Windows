@@ -154,9 +154,12 @@ namespace BrokenBytes::DualSense4Windows {
 
 		/// <summary>
 		/// Sets the mute state
+		/// 0 = Unmute
+		/// 1 = Muted
+		/// 2 = Deaf
 		/// </summary>
 		/// <param name="muted">The state</param>
-		void SetMute(bool muted);
+		void SetMute(uint8_t muted);
 
 		/// <summary>
 		/// Sets the mode of the controller.
@@ -190,11 +193,11 @@ namespace BrokenBytes::DualSense4Windows {
 		ControllerMode _mode;
 		DS_LIGHTBARCOLOR _color;
 		uint8_t _controllerNumber;
-		bool _isMuted;
 		DS_TRIGGER _triggerLeft;
 		DS_TRIGGER _triggerRight;
 		uint8_t _rumbleHeavy;
 		uint8_t _rumbleLight;
+		uint8_t _mute;
 
 		// Data 
 		unsigned char _buffer[32];

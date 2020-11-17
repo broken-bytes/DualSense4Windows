@@ -3,6 +3,8 @@
 #include "App.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
+	void App::DualSenseDevicesChanged(std::map<char*, DualSense*> devices) {}
+
 	App::App() {
 		_app = ultralight::App::Create();
 		_window = ultralight::Window::Create(
@@ -32,7 +34,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		
 	}
 
-	std::shared_ptr<App> App::Create() {
+	std::shared_ptr<App> App::Instance() {
 		if (auto ptr = App::_appInstance.lock()) {
 			return ptr;
 		}

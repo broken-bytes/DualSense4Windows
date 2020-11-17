@@ -25,7 +25,7 @@ namespace BrokenBytes::DualSense4Windows {
 		/// Creates the Interface singleton
 		/// </summary>
 		/// <returns>The singleton</returns>
-		[[nodiscard]] static std::shared_ptr<Interface> Create();
+		[[nodiscard]] static std::shared_ptr<Interface> Instance();
 		
 		/// <summary>
 		/// Inits the Interface
@@ -61,6 +61,8 @@ namespace BrokenBytes::DualSense4Windows {
 		/// <param name="device">The device to bind</param>
 		/// <param name="target">The target to be bound to</param>
 		void BindVirtualDevice(DualSense* device, PVIGEM_TARGET target);
+
+		// Slots
 
 	private:
 		static inline  std::weak_ptr<Interface> _interface;

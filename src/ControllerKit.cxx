@@ -25,12 +25,12 @@ namespace BrokenBytes::DualSense4Windows {
 	}
 
 	void InitUI() {
-		APP = UI::App::Create();
+		APP = UI::App::Instance();
 		APP->Run();
 	}
 
 	void InitInterface() {
-		INTERFACE = Interface::Create();
+		INTERFACE = Interface::Instance();
 		INTERFACE->Init();
 	}
 }

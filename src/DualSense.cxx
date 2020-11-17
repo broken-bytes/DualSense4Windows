@@ -17,7 +17,7 @@ namespace BrokenBytes::DualSense4Windows {
 		_device = hid_open_path(_path);
 		_thread = std::thread(&DualSense::Routine, this);
 		_controllerNumber = controllerNumber;
-		_isMuted = false;
+		_mute = 0;
 		_triggerRight = {0,0,0, DS_TRIGGERMODE::Free};
 		_triggerLeft = {0,0,0, DS_TRIGGERMODE::Free };
 		_rumbleLight = 0;
@@ -72,8 +72,8 @@ namespace BrokenBytes::DualSense4Windows {
 		_rumbleLight = rumble;
 	}
 
-	void DualSense::SetMute(bool muted) {
-		_isMuted = muted;
+	void DualSense::SetMute(uint8_t muted) {
+		_mute = muted;
 	}
 
 	void DualSense::SetMode(ControllerMode mode) {
@@ -183,7 +183,7 @@ namespace BrokenBytes::DualSense4Windows {
 			// 0x20 = enable audio on internal speaker (in addition to a connected headset)
 
 		// audio related LEDs requiring according LED toggle flags
-		outputReport[9] = (_isMuted) ? 0 : 1; // microphone LED (1 = on, 2 = pulsating / neither does affect the mic)
+		outputReport[9] = _mute; // microphone LED (1 = on, 2 = pulsating / neither does affect the mic)
 
 		// audio settings requiring mute toggling flags
 		outputReport[10] = 0x00; // 0x10 microphone mute, 0x40 audio mute

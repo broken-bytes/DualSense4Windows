@@ -1,9 +1,12 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <memory>
-
+#include <sigslot/signal.hpp>
 #include <AppCore/AppCore.h>
+
+#include "DualSense.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
 	constexpr uint32_t WINDOW_WIDTH = 800;
@@ -21,7 +24,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		/// Creates or returns the singleton instance of App
 		/// </summary>
 		/// <returns>The singleton</returns>
-		[[nodiscard]] static std::shared_ptr<App> Create();
+		[[nodiscard]] static std::shared_ptr<App> Instance();
 		void Run();
 	    void OnUpdate() override;
 	    void OnClose() override;
@@ -48,6 +51,14 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	    void OnDOMReady(ultralight::View* caller, uint64_t frame_id, bool is_main_frame,
 		    const ultralight::String& url) override;
 	    void OnUpdateHistory(ultralight::View* caller) override;
+
+		// Slots
+		/// <summary>
+		/// Called when the number of DualSense devices connected changes
+		/// </summary>
+		/// <param name="devices"></param>
+		void DualSenseDevicesChanged(std::map<char*, DualSense*> devices);
+
 
 	private:
 		static inline std::weak_ptr<App> _appInstance;

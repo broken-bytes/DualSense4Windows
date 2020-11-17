@@ -73,7 +73,7 @@ namespace BrokenBytes::DualSense4Windows::Utils {
 		buttons[8] = input.L1;
 		buttons[9] = input.R1;
 		buttons[10] = input.PS;
-		buttons[11] = 0;
+		buttons[11] = false;
 		buttons[12] = input.Cross;
 		buttons[13] = input.Circle;
 		buttons[14] = input.Square;
@@ -101,6 +101,7 @@ namespace BrokenBytes::DualSense4Windows::Utils {
 		input.Options = (report.wButtons & 0x2000);
 		input.L3 = (report.wButtons & 0x4000);
 		input.R3 = (report.wButtons & 0x8000);
+		input.PS = (report.bSpecial & 0x01);
 
 		switch (report.wButtons & 0x000F) {
 		case 0b0000:

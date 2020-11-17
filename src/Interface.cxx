@@ -62,7 +62,7 @@ namespace BrokenBytes::DualSense4Windows {
 		_client = nullptr;
 	}
 
-	std::shared_ptr<Interface> Interface::Create() {
+	std::shared_ptr<Interface> Interface::Instance() {
 		if(auto ptr = Interface::_interface.lock()) {
 			return ptr;
 		}
