@@ -7,7 +7,7 @@
 
 #include <crc/CRC.h>
 
-namespace BrokenBytes::ControllerKit::Math {
+namespace BrokenBytes::DualSense4Windows::Math {
 	template<typename T,
 		typename std::enable_if<std::is_arithmetic<T>::value>::type* = nullptr>
 		struct Vector2 {
