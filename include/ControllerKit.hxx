@@ -5,16 +5,10 @@
 #include "Squirrel.hxx"
 
 namespace BrokenBytes::DualSense4Windows {
-	// Forward declarations
-	namespace UI {
-		class App;
-	}
-
 	class Interface;
 
 	
 	constexpr wchar_t* WINDOW_NAME = L"DualSense4Windows";
-	extern std::shared_ptr<UI::App> APP;
 	extern std::shared_ptr<Interface> INTERFACE;
 	extern std::shared_ptr<Squirrel::Squirrel> LOGGER;
 
@@ -40,7 +34,13 @@ namespace BrokenBytes::DualSense4Windows {
 	void InitInterface();
 
 	/// <summary>
-	/// Inits the signals used in the app
+	/// Connects all signals and slots
 	/// </summary>
-	void InitSignals();
+	void ConnectSignals();
+	
+	/// <summary>
+	/// RUns the app loop
+	/// </summary>
+	void Run();
+
 }

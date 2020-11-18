@@ -1,7 +1,4 @@
-#ifndef UNICODE
-#define UNICODE
-#endif 
-#define WIN32_LEAN_AND_MEAN
+ #define WIN32_LEAN_AND_MEAN
 #include <windows.h>
 #include <iostream>
 #include <map>
@@ -9,30 +6,44 @@
 
 #include "ControllerKit.hxx"
 #include "Utils.hxx"
-#include "App.hxx"
 #include "Interface.hxx"
 
 
 using namespace BrokenBytes::DualSense4Windows;
 
 namespace BrokenBytes::DualSense4Windows {
-	std::shared_ptr<UI::App> APP;
 	std::shared_ptr<Interface> INTERFACE;
 
 	void Init() {
 		InitInterface();
 		InitUI();
+		ConnectSignals();
 	}
 
 	void InitUI() {
 		APP = UI::App::Instance();
-		APP->Run();
 	}
 
 	void InitInterface() {
 		INTERFACE = Interface::Instance();
-		INTERFACE->Init();
 	}
+
+	void ConnectSignals() {
+		APP->AppStarted.connect([] {
+			INTERFACE->Init();
+		});
+		INTERFACE->DevicesChanged.connect([](
+			std::map<char*, DualSense*> devices
+			) {
+				APP->DualSenseDevicesChanged(devices);
+		});
+	}
+
+	void Run() {
+		APP->Run();
+	}
+
+
 }
 
 
@@ -41,8 +52,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE, PWSTR pCmdLine, int nCmdShow)
 {
 	Init();
+	Run();
 	return 1;
-	
+
 	WNDCLASS wc = { };
 
 	wc.lpfnWndProc = WindowProc;

@@ -1,10 +1,11 @@
 #include <memory>
-
 #include "App.hxx"
 
-namespace BrokenBytes::DualSense4Windows::UI {
-	void App::DualSenseDevicesChanged(std::map<char*, DualSense*> devices) {}
+#if !_DEBUG
+#include "Assets.hxx"
+#endif
 
+namespace BrokenBytes::DualSense4Windows::UI {
 	App::App() {
 		_app = ultralight::App::Create();
 		_window = ultralight::Window::Create(
@@ -22,8 +23,14 @@ namespace BrokenBytes::DualSense4Windows::UI {
 			0
 		);
 
+		auto str = Assets::AssetData(Assets::AssetFile::app);
 		this->OnResize(_window->width(), _window->height());
+#if _DEBUG
 		_overlay->view()->LoadURL("file://assets/html/app.html");
+#else
+		_overlay->view()->LoadHTML(
+			Assets::AssetData(Assets::AssetFile::app).c_str());
+#endif
 		_app->set_listener(this);
 		_window->set_listener(this);
 		_overlay->view()->set_load_listener(this);
@@ -74,7 +81,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		const ultralight::String& url) {}
 
 	void App::OnFinishLoading(ultralight::View* caller, uint64_t frame_id, bool is_main_frame,
-		const ultralight::String& url) {}
+		const ultralight::String& url) {
+	}
 
 	void App::OnFailLoading(ultralight::View* caller, uint64_t frame_id, bool is_main_frame,
 		const ultralight::String& url, const ultralight::String& description, const ultralight::String& error_domain,
@@ -84,9 +92,36 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		const ultralight::String& url) {}
 
 	void App::OnDOMReady(ultralight::View* caller, uint64_t frame_id, bool is_main_frame,
-		const ultralight::String& url) {}
+		const ultralight::String& url) {
+		AppStarted();
+	}
 
 	void App::OnUpdateHistory(ultralight::View* caller) {}
+
+	void App::DualSenseDevicesChanged(std::map<char*, DualSense*> devices) {
+		std::string json = "{ \"devices\": [";
+		int count = 0;
+		for(auto item: devices) {
+			json += "{";
+			json += "\"path\":\"";
+			json += item.first;
+			json += "\",";
+			json += "\"device\":";
+			json += "\"";
+			json += (item.second->Mode() == ControllerMode::DS4 ? "DS4" : "XBox");
+			json += "\"}";
+			if (count < devices.size() - 1) {
+				json += ",";
+			}
+			count++;
+		}
+		json += "]}";
+		auto js = JS_FUNC(
+			JS_FUNCTIONS::OnDualSenseDevicesUpdated,
+			json
+		);
+		_overlay->view()->EvaluateScript(js);
+	}
 }
 
 

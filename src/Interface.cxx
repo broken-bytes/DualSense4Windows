@@ -83,6 +83,8 @@ namespace BrokenBytes::DualSense4Windows {
 			BindVirtualDevice(ds.second, device);
 			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 0 ,100 });
 		}
+		_devices = dualsenses;
+		DevicesChanged(_devices);
 	}
 
 	void Interface::InitViGEmClient() {
@@ -141,6 +143,7 @@ namespace BrokenBytes::DualSense4Windows {
 				ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 120, 120 });
 			}
 		}
+		DevicesChanged(_devices);
 	}
 
 	PVIGEM_TARGET Interface::CreateVirtualDevice(ControllerMode mode) {

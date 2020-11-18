@@ -3,6 +3,7 @@
 #include <map>
 #include <string>
 #include <memory>
+#include <array>
 #include <sigslot/signal.hpp>
 #include <AppCore/AppCore.h>
 
@@ -11,6 +12,44 @@
 namespace BrokenBytes::DualSense4Windows::UI {
 	constexpr uint32_t WINDOW_WIDTH = 800;
 	constexpr uint32_t WINDOW_HEIGHT = 600;
+
+	inline std::array<char*, 2> JS_FUNC_ARR = {
+		"OnDualSenseDevicesUpdated",
+		"Test"
+	};
+	
+	// JS Functions
+	enum class JS_FUNCTIONS {
+		OnDualSenseDevicesUpdated,
+		Test
+	};
+
+	inline char* JS_FUNC(JS_FUNCTIONS func, const char* data, size_t length) {
+		auto f = JS_FUNC_ARR[static_cast<int>(func)];
+		char* str = new char[255];
+		memset(str, 0, 255);
+		strcat_s(str, 255, f);
+		strcat_s(str, 255, "(");
+		strcat_s(str, 255, data);
+		strcat_s(str, 255, ")\0");
+		return str;
+	};
+
+	inline char* JS_FUNC(JS_FUNCTIONS func, std::string data) {
+		return JS_FUNC(func, data.c_str(), data.size());
+	};
+
+	inline char* JS_FUNC(JS_FUNCTIONS func) {
+		auto f = JS_FUNC_ARR[static_cast<int>(func)];
+		char* str = new char[255];
+		memset(str, 0, 255);
+		auto len = strlen(f);
+		strcat_s(str, 255, f);
+		len = strlen(str);
+		strcat_s(str, 255, "()\0");
+		return str;
+	};
+	
 	class App :
 		public ultralight::AppListener,
 		public ultralight::LoadListener,
@@ -19,6 +58,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	{
 
     public:
+		sigslot::signal<> AppStarted;
+		
 	    ~App();
 		/// <summary>
 		/// Creates or returns the singleton instance of App
