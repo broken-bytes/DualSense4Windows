@@ -1,7 +1,6 @@
 #pragma once
 
-#define WIN32_LEAN_AND_MEAN
-#include <Windows.h>
+#include "Core.hxx"
 #include <map>
 #include <memory>
 #include <ViGEm/Client.h>
@@ -23,17 +22,16 @@ namespace BrokenBytes::DualSense4Windows {
 	class Interface {
 	public:
 		/// <summary>
-		/// Creates the Interface singleton
-		/// </summary>
-		/// <returns>The singleton</returns>
-		[[nodiscard]] static std::shared_ptr<Interface> Instance();
-
-		/// <summary>
 		/// The signal used for device change notifications
 		/// </summary>
 		sigslot::signal < std::map<char*, DualSense*>> DevicesChanged;
 
-		
+
+		/// <summary>
+		/// Creates a new object
+		/// Note: This does not init the interface
+		/// </summary>
+		Interface();
 		/// <summary>
 		/// Inits the Interface
 		/// </summary>
@@ -72,12 +70,10 @@ namespace BrokenBytes::DualSense4Windows {
 		// Slots
 
 	private:
-		static inline  std::weak_ptr<Interface> _interface;
 		PVIGEM_CLIENT _client;
 		std::map<char*, DualSense*> _devices;
 		std::map<char*, PVIGEM_TARGET> _virtualDevices;
-		// Private to enforce singleton
-		Interface();
+		
 		void InitViGEmClient();
 	};
 }

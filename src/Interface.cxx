@@ -62,14 +62,6 @@ namespace BrokenBytes::DualSense4Windows {
 		_client = nullptr;
 	}
 
-	std::shared_ptr<Interface> Interface::Instance() {
-		if(auto ptr = Interface::_interface.lock()) {
-			return ptr;
-		}
-
-		return std::shared_ptr<Interface>(new Interface());
-	}
-
 	void Interface::Init() {
 		InitViGEmClient();
 		_devices = std::map<char*, DualSense*>();
