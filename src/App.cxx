@@ -30,9 +30,12 @@ namespace BrokenBytes::DualSense4Windows::UI {
 
 	void App::Run() {
 		_mainWindow = std::make_shared<MainWindow>(L"DualSense4Windows", 1024, 512);
+
+		reinterpret_cast<MainWindow*>(_mainWindow.get())->ColorChanged.connect([this](
+			uint8_t id, Color c) {
+			this->ColorChanged(id, c);
+		});
 		_mainWindow->Show();
-		auto color = new ColorPicker();
-		color->Show();
 		AppStarted();
 	}
 

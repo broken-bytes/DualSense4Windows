@@ -9,6 +9,10 @@
 #include "Types.hxx"
 
 namespace BrokenBytes::DualSense4Windows {
+	namespace UI {
+		struct Color;
+	}
+
 	class DualSense;
 	struct DS_REPORT;
 }
@@ -66,6 +70,8 @@ namespace BrokenBytes::DualSense4Windows {
 		/// <param name="device">The device to bind</param>
 		/// <param name="target">The target to be bound to</param>
 		void BindVirtualDevice(DualSense* device, PVIGEM_TARGET target);
+
+		void SetColor(uint8_t ID, UI::Color c);
 
 		// Slots
 

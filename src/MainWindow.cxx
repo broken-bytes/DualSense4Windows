@@ -16,25 +16,16 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		uint16_t width,
 		uint16_t height
 	) : Window(title, width, height) {
-		HWND hWndComboBox = CreateWindowEx(
-			WS_EX_WINDOWEDGE,
-			TEXT("Button"),
-			TEXT(""),
-			CBS_DROPDOWN | CBS_HASSTRINGS | WS_CHILD | WS_OVERLAPPED | WS_VISIBLE,
-			0,
-			0,
-			256,
-			32,
-			Handle(),
-			NULL,
-			GetModuleHandle(nullptr),
-			NULL
-		);
+
 	}
 	
-
 	void MainWindow::Show() {
 		Window::Show();
+		auto color = new ColorPicker(Color { 120, 120, 120});
+		color->ColorChanged.connect([this](Color c) {
+			ColorChanged(0, c);
+		});
+		color->Show();
 	}
 	
 	void MainWindow::Hide() {
@@ -45,6 +36,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		if(uMsg == WM_DESTROY) {
 			PostQuitMessage(0);
 		}
+		
 		return DefWindowProc(Handle(), uMsg, wParam, lParam);
 	}
 }

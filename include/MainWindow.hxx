@@ -1,12 +1,16 @@
 #pragma once
 
+#include <sigslot/signal.hpp>
 
-
+#include "ColorPicker.hxx"
 #include "Window.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
 	class MainWindow : public Window {
 	public:
+
+		sigslot::signal<uint8_t, Color> ColorChanged;
+		
 		/// <summary>
 		/// Creates a new instance of this window
 		/// </summary>

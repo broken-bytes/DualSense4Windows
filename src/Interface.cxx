@@ -4,6 +4,8 @@
 
 
 #include "Interface.hxx"
+
+#include "ColorPicker.hxx"
 #include "Types.hxx"
 #include "DualSense.hxx"
 #include "Utils.hxx"
@@ -206,5 +208,11 @@ namespace BrokenBytes::DualSense4Windows {
 				break;
 			}
 			});
+	}
+
+	void Interface::SetColor(uint8_t ID, UI::Color c) {
+		for (auto ds: _devices) {
+			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ c.R, c.G, c.B });
+		}
 	}
 }

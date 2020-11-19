@@ -42,6 +42,9 @@ namespace BrokenBytes::DualSense4Windows {
 			) {
 				APP->DualSenseDevicesChanged(devices);
 		});
+		APP->ColorChanged.connect([](uint8_t id, UI::Color c) {
+			INTERFACE->SetColor(id, c);
+		});
 	}
 
 	void Run() {

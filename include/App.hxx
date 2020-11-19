@@ -6,6 +6,8 @@
 #include <array>
 #include <sigslot/signal.hpp>
 
+
+#include "ColorPicker.hxx"
 #include "Core.hxx"
 
 #include "DualSense.hxx"
@@ -27,6 +29,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		/// Called when the app receives a device change event
 		/// </summary>
 		sigslot::signal<> DeviceChange;
+
+		sigslot::signal<uint8_t, Color> ColorChanged;
 
 		/// <summary>
 		/// Creates an app instance
