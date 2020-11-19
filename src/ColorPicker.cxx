@@ -103,11 +103,11 @@ namespace BrokenBytes::DualSense4Windows::UI {
             NULL);	
 		
         SetResizable(false);
-        SetWindowPos(Handle(), HWND_TOPMOST, 0, 0, WIDTH, HEIGHT, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
 	}
 
 	void ColorPicker::Show() {
         Window::Show();
+        SetWindowPos(Handle(), HWND_TOPMOST, 0, 0, WIDTH, HEIGHT, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
 	}
 
     void ColorPicker::SetColor(uint8_t r, uint8_t g, uint8_t b) {

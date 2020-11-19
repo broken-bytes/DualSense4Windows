@@ -1,22 +1,13 @@
 #pragma once
 
 
-#include "Core.hxx"
-#include "Window.hxx"
 #include <sigslot/signal.hpp>
 
-namespace BrokenBytes::DualSense4Windows::UI {
+#include "Core.hxx"
+#include "Window.hxx"
+#include "DualSenseInfo.hxx"
 
-	struct Color {
-		uint8_t R;
-		uint8_t G;
-		uint8_t B;
-
-		COLORREF RGB_VALUE() const {
-			return RGB(R, G, B);
-		}
-	};
-	
+namespace BrokenBytes::DualSense4Windows::UI {	
 	class ColorPicker : public Window {
 	public:
 		sigslot::signal<Color> ColorChanged;

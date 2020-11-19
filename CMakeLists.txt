@@ -20,6 +20,7 @@ set(SRC_INC
 	include/Window.hxx
 	include/MainWindow.hxx
 	include/ColorPicker.hxx
+	include/DualSenseInfo.hxx
 )
 
 set(SRC
@@ -44,6 +45,7 @@ set(ASSETS "$<TARGET_FILE_DIR:${APP}>/assets")
 
 add_executable(${APP} WIN32 ${SRC} ${SRC_INC})
 target_link_directories(${APP} PUBLIC lib/)
+target_link_libraries(${APP} comctl32.lib)
 target_link_libraries(${APP} hidapi.lib)
 target_link_libraries(${APP} setupapi)
 target_link_libraries(${APP} ViGEmClient.lib)

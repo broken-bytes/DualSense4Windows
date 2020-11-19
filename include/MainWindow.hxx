@@ -11,13 +11,13 @@
 namespace BrokenBytes::DualSense4Windows::UI {
 	
 	enum class Dimensions : uint16_t {
-		VSpacer = 1,
+		VSpacer = 8,
 		HSpacer = 1,
 		NameWidth = 30,
 		ConnectionWidth = 10,
 		ColorSize = 15,
 		HideWidth = 10,
-		BaseHeight = 5
+		BaseHeight = 16
 	};
 	
 	class MainWindow : public Window {
@@ -46,18 +46,14 @@ namespace BrokenBytes::DualSense4Windows::UI {
 
 	private:
 		std::vector<char*> _devices;
-		std::map<char*, std::array<void*, 4>> _controls;
-
-		/// <summary>
-		/// Adds the controls for a given DualSense
-		/// </summary>
-		/// <param name="id">The path of the DualSense</param>
-		void AddControls(char* id);
-
-		/// <summary>
-		/// Removes the controls for a given DualSense
-		/// </summary>
-		/// <param name="id">The path of the DualSense</param>
+		std::vector<DualSenseInfo> _info;
+		HWND _tabView;
+		HWND _listView;
+		std::map<std::wstring, HWND> _tabs;
+		
+		HWND CreateTabControl();
+		HWND CreateListViewControl();
+		void AddControls(char* id, int index);
 		void RemoveControls(char* id);
 	};
 }
