@@ -1,23 +1,18 @@
 #pragma once
-
+#include "Core.hxx"
 #include <Logger.hxx>
 #include <memory>
 #include "Squirrel.hxx"
+#include "App.hxx"
+
 
 namespace BrokenBytes::DualSense4Windows {
-	// Forward declarations
-	namespace UI {
-		class App;
-	}
-
 	class Interface;
 
-	
-	constexpr wchar_t* WINDOW_NAME = L"DualSense4Windows";
-	extern std::shared_ptr<UI::App> APP;
-	extern std::shared_ptr<Interface> INTERFACE;
+	extern std::unique_ptr<UI::App> APP;
+	extern std::unique_ptr<Interface> INTERFACE;
 	extern std::shared_ptr<Squirrel::Squirrel> LOGGER;
-
+	extern std::unique_ptr<HINSTANCE> INSTANCE;
 	
 	/// <summary>
 	/// Inits the program and does initial setup needed
@@ -40,7 +35,13 @@ namespace BrokenBytes::DualSense4Windows {
 	void InitInterface();
 
 	/// <summary>
-	/// Inits the signals used in the app
+	/// Connects all signals and slots
 	/// </summary>
-	void InitSignals();
+	void ConnectSignals();
+	
+	/// <summary>
+	/// RUns the app loop
+	/// </summary>
+	void Run();
+
 }

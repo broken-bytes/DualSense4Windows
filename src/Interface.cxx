@@ -4,6 +4,8 @@
 
 
 #include "Interface.hxx"
+
+#include "ColorPicker.hxx"
 #include "Types.hxx"
 #include "DualSense.hxx"
 #include "Utils.hxx"
@@ -62,14 +64,6 @@ namespace BrokenBytes::DualSense4Windows {
 		_client = nullptr;
 	}
 
-	std::shared_ptr<Interface> Interface::Instance() {
-		if(auto ptr = Interface::_interface.lock()) {
-			return ptr;
-		}
-
-		return std::shared_ptr<Interface>(new Interface());
-	}
-
 	void Interface::Init() {
 		InitViGEmClient();
 		_devices = std::map<char*, DualSense*>();
@@ -83,6 +77,8 @@ namespace BrokenBytes::DualSense4Windows {
 			BindVirtualDevice(ds.second, device);
 			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 0 ,100 });
 		}
+		_devices = dualsenses;
+		DevicesChanged(_devices);
 	}
 
 	void Interface::InitViGEmClient() {
@@ -141,6 +137,7 @@ namespace BrokenBytes::DualSense4Windows {
 				ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 120, 120 });
 			}
 		}
+		DevicesChanged(_devices);
 	}
 
 	PVIGEM_TARGET Interface::CreateVirtualDevice(ControllerMode mode) {
@@ -211,5 +208,11 @@ namespace BrokenBytes::DualSense4Windows {
 				break;
 			}
 			});
+	}
+
+	void Interface::SetColor(uint8_t ID, UI::Color c) {
+		for (auto ds: _devices) {
+			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ c.R, c.G, c.B });
+		}
 	}
 }

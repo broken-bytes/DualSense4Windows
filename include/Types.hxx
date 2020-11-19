@@ -1,7 +1,6 @@
 #pragma once
 
 namespace BrokenBytes::DualSense4Windows {
-
 	enum class ControllerMode {
 		DS4,
 		XBoxOne
