@@ -13,6 +13,11 @@
 namespace BrokenBytes::DualSense4Windows::UI {
 	constexpr LPCWSTR WINDOW_DEFAULT = L"WINDOW_DEFAULT";
 
+	constexpr int FONT_TAB = 19;
+	constexpr int FONT_HEADLINE = 23;
+	constexpr int FONT_LABEL = 21;
+	constexpr int FONT_BTN = 22;
+	
 	class Window {
 	public:
 		Window(
@@ -44,8 +49,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 				GetModuleHandle(nullptr),
 				nullptr
 			);
-			SendMessageW(_handle, WM_THEMECHANGED, 0, 0);
 			SetWindowLongPtr(_handle, GWLP_USERDATA, reinterpret_cast<LONG_PTR>(this));
+			SetFont(Handle(), FONT_HEADLINE);
 
 			if (_handle == nullptr) {
 				return;
@@ -155,6 +160,23 @@ namespace BrokenBytes::DualSense4Windows::UI {
 			_isRegistered = true;
 		}
 
+		/// <summary>
+		/// Sets the default font for the given window
+		/// </summary>
+		/// <param name="handle"></param>
+		void SetFont(HWND handle, int size) {
+			HFONT hFont = CreateFont(size, 0, 0, 0, FW_DONTCARE, FALSE, FALSE, FALSE, ANSI_CHARSET,
+				OUT_TT_PRECIS, CLIP_DEFAULT_PRECIS, HIGH_LEVEL,
+				DEFAULT_PITCH | FF_DONTCARE, TEXT("Roboto"));
+			SendMessage(
+				handle,
+				WM_SETFONT,
+				reinterpret_cast<WPARAM>(hFont),
+				true
+			);
+		}
+
+		
 		/// <summary>
 		/// Sets the handle of this Window
 		/// </summary>
