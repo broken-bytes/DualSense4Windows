@@ -13,7 +13,7 @@ namespace BrokenBytes::DualSense4Windows {
 	/// <summary>
 	/// The rate at which to send reports to the DS
 	/// </summary>
-	constexpr uint8_t DS_SENDRATE = 50;
+	constexpr uint8_t DS_SENDRATE = 20;
 	/// <summary>
 	/// The Default mode at which DualSense operates
 	/// </summary>
@@ -110,6 +110,11 @@ namespace BrokenBytes::DualSense4Windows {
 		/// <param name="path"></param>
 		/// <param name="controllerNumber">The number of the controller</param>
 		DualSense(char* path, uint8_t controllerNumber);
+
+		/// <summary>
+		/// Destroys this instance and frees resources
+		/// </summary>
+		~DualSense();
 
 		/// <summary>
 		/// Returns the mode of the controller

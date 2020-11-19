@@ -1,10 +1,9 @@
 #include <iostream>
 #include <memory>
+#include <vector>
 #include <hidapi/hidapi.h>
 
-
 #include "Interface.hxx"
-
 #include "ColorPicker.hxx"
 #include "Types.hxx"
 #include "DualSense.hxx"
@@ -57,7 +56,6 @@ namespace BrokenBytes::DualSense4Windows {
 		if (auto d = device; d->Target() == Target) {
 			return;
 		}
-		device->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 255,0 });
 	}
 	
 	Interface::Interface() {
@@ -68,17 +66,7 @@ namespace BrokenBytes::DualSense4Windows {
 		InitViGEmClient();
 		_devices = std::map<char*, DualSense*>();
 		_virtualDevices = std::map<char*, PVIGEM_TARGET>();
-		auto dualsenses = GetDualSenses();
-		for (auto ds : dualsenses) {
-			auto key = ds.first;
-			auto value = ds.second;
-			const auto device = CreateVirtualDevice(DEFAULT_MODE);
-			_virtualDevices.emplace(ds.first, device);
-			BindVirtualDevice(ds.second, device);
-			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 0 ,100 });
-		}
-		_devices = dualsenses;
-		DevicesChanged(_devices);
+		UpdateDualSenseDevices();
 	}
 
 	void Interface::InitViGEmClient() {
@@ -95,8 +83,8 @@ namespace BrokenBytes::DualSense4Windows {
 		}
 	}
 
-	std::map<char*, DualSense*> Interface::GetDualSenses() {
-		auto _devices = std::map<char*, DualSense*>();
+	std::vector<char*> Interface::GetDualSenses() {
+		auto devices = std::vector<char*>();
 
 		auto* ds = hid_enumerate(SONY, DS);
 		while (ds != nullptr) {
@@ -104,15 +92,12 @@ namespace BrokenBytes::DualSense4Windows {
 				ds = ds->next;
 				continue;
 			}
-			_devices.emplace(
-				ds->path,
-				new DualSense(ds->path, _devices.size())
-			);
+			devices.emplace_back(ds->path);
 			ds = ds->next;
 		}
 		hid_free_enumeration(ds);
 
-		return _devices;
+		return devices;
 	}
 
 	void Interface::UpdateDualSenseDevices() {
@@ -120,24 +105,44 @@ namespace BrokenBytes::DualSense4Windows {
 
 		// Check if a device is no longer present
 		for (auto ds : _devices) {
+			bool remove = true;
 			for (auto d : dualsenses) {
-				if (d.first == ds.first) {
+				if (strcmp(d, ds.first) == 0) {
+					remove = false;
 					break;
-				}
+				} 
 			}
-			_devices.erase(ds.first);
-			RemoveVirtualDevice(_virtualDevices[ds.first]);
+			if (remove) {
+				auto id = ds.first;
+				delete ds.second;
+				_devices.erase(ds.first);
+				RemoveVirtualDevice(_virtualDevices[ds.first]);
+			}
 		}
 
 		// Check if a new device has been connected
 		for (auto ds : dualsenses) {
-			if (_devices.count(ds.first) == 0) {
-				_devices.emplace(ds.first, ds.second);
-				BindVirtualDevice(ds.second, CreateVirtualDevice(DEFAULT_MODE));
-				ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ 255, 120, 120 });
+			bool add = true;
+			for(auto d: _devices) {
+				if (strcmp(ds, d.first) == 0) {
+					add = false;
+					continue;
+				}
 			}
+			if(!add) {
+				return;
+			}
+			
+			auto dualsense = new DualSense(ds, 0);
+			_devices.emplace(ds, dualsense);
+			BindVirtualDevice(dualsense, CreateVirtualDevice(DEFAULT_MODE));
 		}
-		DevicesChanged(_devices);
+
+		auto paths = std::vector<char*>();
+		for(auto item: _devices) {
+			paths.emplace_back(item.first);
+		}
+		DevicesChanged(paths);
 	}
 
 	PVIGEM_TARGET Interface::CreateVirtualDevice(ControllerMode mode) {
@@ -210,9 +215,9 @@ namespace BrokenBytes::DualSense4Windows {
 			});
 	}
 
-	void Interface::SetColor(uint8_t ID, UI::Color c) {
+	void Interface::SetColor(uint8_t ID, DS_LIGHTBARCOLOR c) {
 		for (auto ds: _devices) {
-			ds.second->SetLEDColor(DS_LIGHTBARCOLOR{ c.R, c.G, c.B });
+			ds.second->SetLEDColor(c);
 		}
 	}
 }

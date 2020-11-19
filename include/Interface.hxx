@@ -2,13 +2,15 @@
 
 #include "Core.hxx"
 #include <map>
-#include <memory>
+#include <vector>
 #include <ViGEm/Client.h>
 #include <sigslot/signal.hpp>
 
 #include "Types.hxx"
 
 namespace BrokenBytes::DualSense4Windows {
+	struct DS_LIGHTBARCOLOR;
+
 	namespace UI {
 		struct Color;
 	}
@@ -28,7 +30,7 @@ namespace BrokenBytes::DualSense4Windows {
 		/// <summary>
 		/// The signal used for device change notifications
 		/// </summary>
-		sigslot::signal < std::map<char*, DualSense*>> DevicesChanged;
+		sigslot::signal < std::vector<char*>> DevicesChanged;
 
 
 		/// <summary>
@@ -45,7 +47,7 @@ namespace BrokenBytes::DualSense4Windows {
 		/// Gets all DualSense devices connected
 		/// </summary>
 		/// <returns>A map of devices, by HID path and instance </returns>
-		std::map<char*, DualSense*> GetDualSenses();
+		std::vector<char*> GetDualSenses();
 		/// <summary>
 		/// Updates the list of connected DualSenses
 		/// </summary>
@@ -71,7 +73,7 @@ namespace BrokenBytes::DualSense4Windows {
 		/// <param name="target">The target to be bound to</param>
 		void BindVirtualDevice(DualSense* device, PVIGEM_TARGET target);
 
-		void SetColor(uint8_t ID, UI::Color c);
+		void SetColor(uint8_t ID, DS_LIGHTBARCOLOR c);
 
 		// Slots
 
