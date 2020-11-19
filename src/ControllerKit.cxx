@@ -23,7 +23,7 @@ namespace BrokenBytes::DualSense4Windows {
 	}
 
 	void InitUI() {
-		APP = std::make_unique<UI::App>(*INSTANCE);
+		APP = std::make_unique<UI::App>();
 	}
 
 	void InitInterface() {
@@ -34,16 +34,16 @@ namespace BrokenBytes::DualSense4Windows {
 		APP->AppStarted.connect([] {
 			INTERFACE->Init();
 		});
-		APP->DeviceChange.connect([] {
+		APP->DevicesChanged.connect([] {
 			INTERFACE->UpdateDualSenseDevices();
 		});
 		INTERFACE->DevicesChanged.connect([](
-			std::map<char*, DualSense*> devices
+			std::vector<char*> devices
 			) {
 				APP->DualSenseDevicesChanged(devices);
 		});
 		APP->ColorChanged.connect([](uint8_t id, UI::Color c) {
-			INTERFACE->SetColor(id, c);
+			INTERFACE->SetColor(id, DS_LIGHTBARCOLOR{c.R, c.G, c.B});
 		});
 	}
 

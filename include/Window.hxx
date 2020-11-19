@@ -8,6 +8,7 @@
 #include <Uxtheme.h>
 
 #include "Core.hxx"
+#include "Math.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
 	constexpr LPCWSTR WINDOW_DEFAULT = L"WINDOW_DEFAULT";
@@ -17,10 +18,12 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		Window(
 			LPCWSTR title,
 			uint16_t width,
-			uint16_t height
+			uint16_t height,
+			UINT extraStyles = 0
 		) {
 			_handle = nullptr;
 			_isRegistered = false;
+			_dimensions = { width, height };
 			WNDCLASSW wnd = { };
 			wnd.hInstance = GetModuleHandle(nullptr);
 			wnd.lpszClassName = WINDOW_DEFAULT;
@@ -31,7 +34,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 			_handle = CreateWindow(
 				WINDOW_DEFAULT,
 				title,
-				WS_OVERLAPPEDWINDOW,
+				WS_OVERLAPPEDWINDOW | extraStyles,
 				0,
 				0,
 				width,
@@ -75,6 +78,22 @@ namespace BrokenBytes::DualSense4Windows::UI {
 			ShowWindow(_handle, SW_HIDE);
 		}
 
+		/// <summary>
+		/// The width of the Window
+		/// </summary>
+		/// <returns>The width</returns>
+		[[nodiscard]] uint16_t Width() const {
+			return _dimensions.x;
+		}
+
+		/// <summary>
+		/// The height of the window
+		/// </summary>
+		/// <returns>The height</returns>
+		[[nodiscard]] uint16_t Height() const {
+			return _dimensions.y;
+		}
+		
 		/// <summary>
 		/// Toggles if this window can be resized
 		/// </summary>
@@ -148,5 +167,6 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		HWND _handle;
 		WNDCLASS* _class;
 		bool _isRegistered;
+		Math::Vector2<uint16_t> _dimensions;
 	};
 }

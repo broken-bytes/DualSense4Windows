@@ -12,8 +12,7 @@
 
 
 namespace BrokenBytes::DualSense4Windows::UI {
-	App::App(HINSTANCE instance) {
-		_win32Instance = instance;
+	App::App() {
 		RegisterWindows();
 	}
 
@@ -31,10 +30,16 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	void App::Run() {
 		_mainWindow = std::make_shared<MainWindow>(L"DualSense4Windows", 1024, 512);
 
-		reinterpret_cast<MainWindow*>(_mainWindow.get())->ColorChanged.connect([this](
+		auto m = reinterpret_cast<MainWindow*>(_mainWindow.get());
+		m->ColorChanged.connect([this](
 			uint8_t id, Color c) {
 			this->ColorChanged(id, c);
 		});
+
+		m->DevicesChanged.connect([this] {
+			DevicesChanged();
+		});
+		
 		_mainWindow->Show();
 		AppStarted();
 	}
@@ -42,8 +47,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	void App::OnUpdate() {}
 	void App::OnClose() {}
 
-	void App::DualSenseDevicesChanged(std::map<char*, DualSense*> devices) {
-	
+	void App::DualSenseDevicesChanged(std::vector<char*> devices) {
+		reinterpret_cast<MainWindow*>(_mainWindow.get())->DualSenseDevicesChanged(devices);
 	}
 }
 

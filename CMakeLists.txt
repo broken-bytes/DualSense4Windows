@@ -31,6 +31,7 @@ set(SRC
 	src/MainWindow.cxx
 	src/ColorPicker.cxx
 	DualSense4Windows.exe.manifest
+	DeclareDPIAware.manifest
 )
 
 set(ASSETS "$<TARGET_FILE_DIR:${APP}>/assets")

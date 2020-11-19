@@ -25,6 +25,10 @@ namespace BrokenBytes::DualSense4Windows {
 		_mode = DEFAULT_MODE;
 	}
 
+	DualSense::~DualSense() {
+		hid_close(_device);
+	}
+
 	ControllerMode DualSense::Mode() const {
 		return _mode;
 	}
@@ -39,8 +43,7 @@ namespace BrokenBytes::DualSense4Windows {
 
 	std::string DualSense::MAC() const {
 		wchar_t* str = nullptr;
-		
-		
+			
 		if(hid_get_manufacturer_string(_device, str, 64) != 0) {
 			str = L"";
 		}
@@ -102,7 +105,6 @@ namespace BrokenBytes::DualSense4Windows {
 		memset(_buffer, 0, 32);
 		while (_device != nullptr) {
 			ticks++;
-			
 			ReadReports();
 			if(ticks < DS_SENDRATE) {
 				continue;

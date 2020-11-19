@@ -5,13 +5,14 @@
 
 namespace BrokenBytes::DualSense4Windows::UI {
     constexpr uint16_t WIDTH = 512;
-    constexpr uint16_t HEIGHT = 242;
+    constexpr uint16_t HEIGHT = 250;
 
     constexpr uint8_t BTN_OK = 0;
     constexpr uint8_t BTN_CANCEL = 1;
 	
     constexpr long COLOR_RANGE = MAKELONG(0, 255);
-	ColorPicker::ColorPicker(Color initColor) : Window(TEXT("Color Picker"), WIDTH, HEIGHT) {
+	ColorPicker::ColorPicker(Color initColor):
+		Window(TEXT("Color Picker"), WIDTH, HEIGHT) {
         _color = initColor;
         _oldColor = initColor;
         _rH = CreateWindowEx(
