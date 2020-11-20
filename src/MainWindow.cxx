@@ -40,10 +40,6 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	
 	void MainWindow::Show() {
 		Window::Show();
-		auto color = new ColorPicker(Color { 120, 120, 120});
-		color->ColorChanged.connect([this](Color c) {
-			ColorChanged(0, c);
-		});
 	}
 	
 	void MainWindow::Hide() {
@@ -94,6 +90,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		PAINTSTRUCT ps;
 		HDC hdc;
 
+		// TODO: Should move to switch
 		if(uMsg == WM_DESTROY) {
 			PostQuitMessage(0);
 		}
@@ -105,8 +102,29 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		if (uMsg == WM_PAINT) {
 			
 		}
+
+		if(uMsg == WM_NOTIFY) {
+			switch (reinterpret_cast<LPNMHDR>(lParam)->code) {
+			case LVN_ITEMACTIVATE:
+				ShowColorPicker();
+				break;
+			}
+		}
 		
 		return DefWindowProc(Handle(), uMsg, wParam, lParam);
+	}
+
+	void MainWindow::ShowColorPicker() {
+		if(_picker != nullptr) {
+			_picker->Show();
+			return;
+		}
+
+		_picker = std::make_unique<ColorPicker>(Color{ 120, 120, 120 });	
+		_picker->ColorChanged.connect([this](Color c) {
+			ColorChanged(0, c);
+		});
+		_picker->Show();
 	}
 
 	HWND MainWindow::CreateTabControl() {
@@ -149,7 +167,6 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	}
 
 	HWND MainWindow::CreateListViewControl() {
-
 		RECT r;
 		GetWindowRect(_tabView, &r);
 

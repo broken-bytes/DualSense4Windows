@@ -53,5 +53,5 @@ target_include_directories(${APP} PUBLIC external/)
 target_include_directories(${APP} PRIVATE include/)
 
 
-	add_custom_command(TARGET ${APP} POST_BUILD
+add_custom_command(TARGET ${APP} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory "${CMAKE_CURRENT_SOURCE_DIR}/bin" "$<TARGET_FILE_DIR:${APP}>")
