@@ -152,8 +152,12 @@ namespace BrokenBytes::DualSense4Windows::UI {
             dwPos[1] = SendMessage(_gH, TBM_GETPOS, 0, 0);
             dwPos[2] = SendMessage(_bH, TBM_GETPOS, 0, 0);
             SetColor(dwPos[0], dwPos[1], dwPos[2]);
-            RedrawWindow(Handle(), nullptr, nullptr, RDW_INVALIDATE);
-            UpdateWindow(Handle());
+            RedrawWindow(
+                Handle(),
+                nullptr,
+                nullptr,
+                RDW_INVALIDATE
+            );
             break;
 	    default:
             return DefWindowProcA(Handle(), uMsg, wParam, lParam);

@@ -45,11 +45,14 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		LRESULT CALLBACK ProcessEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
 
 	private:
+		std::unique_ptr<ColorPicker> _picker;
 		std::vector<char*> _devices;
 		std::vector<DualSenseInfo> _info;
 		HWND _tabView;
 		HWND _listView;
 		std::map<std::wstring, HWND> _tabs;
+
+		void ShowColorPicker();
 		
 		HWND CreateTabControl();
 		HWND CreateListViewControl();
