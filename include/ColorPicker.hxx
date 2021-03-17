@@ -14,8 +14,9 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		sigslot::signal<Color> ColorApplied;
 		
 		ColorPicker(Color initColor);
+		virtual ~ColorPicker();
 
-		void Show() override;
+		void Show() override final;
 		
 	private:
 		Color _oldColor;
@@ -26,6 +27,6 @@ namespace BrokenBytes::DualSense4Windows::UI {
 
 		void SetColor(uint8_t r, uint8_t g, uint8_t b);
 		void SetColor(Color c);
-		LRESULT ProcessEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+		LRESULT ProcessEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override final;
 	};
 }

@@ -105,7 +105,11 @@ namespace BrokenBytes::DualSense4Windows::UI {
         SetResizable(false);
 	}
 
-	void ColorPicker::Show() {
+    ColorPicker::~ColorPicker() {
+        DestroyWindow(Handle());
+	}
+
+    void ColorPicker::Show() {
         Window::Show();
         SetWindowPos(Handle(), HWND_TOPMOST, 0, 0, WIDTH, HEIGHT, SWP_SHOWWINDOW | SWP_NOSIZE | SWP_NOMOVE);
 	}
@@ -140,10 +144,12 @@ namespace BrokenBytes::DualSense4Windows::UI {
             if (LOWORD(wParam) == BTN_OK) {
                 ColorChanged(_color);
                 this->Hide();
+                PostMessage(Handle(), WM_CLOSE, 0, 0);
             }
             if (LOWORD(wParam) == BTN_CANCEL) {
                 ColorChanged(_oldColor);
                 this->Hide();
+                PostMessage(Handle(), WM_CLOSE, 0, 0);
             }
 	    	break;
 	    
@@ -159,6 +165,10 @@ namespace BrokenBytes::DualSense4Windows::UI {
                 RDW_INVALIDATE
             );
             break;
+
+        case WM_CLOSE:
+            this->~ColorPicker();
+	    	break;
 	    default:
             return DefWindowProcA(Handle(), uMsg, wParam, lParam);
 	    }

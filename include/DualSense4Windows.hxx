@@ -1,19 +1,5 @@
 #pragma once
-#include "Core.hxx"
-#include <Logger.hxx>
-#include <memory>
-#include "Squirrel.hxx"
-#include "App.hxx"
-
-
-namespace BrokenBytes::DualSense4Windows {
-	class Interface;
-
-	extern std::unique_ptr<UI::App> APP;
-	extern std::unique_ptr<Interface> INTERFACE;
-	extern std::shared_ptr<Squirrel::Squirrel> LOGGER;
-	extern std::unique_ptr<HINSTANCE> INSTANCE;
-	
+namespace BrokenBytes::DualSense4Windows {	
 	/// <summary>
 	/// Inits the program and does initial setup needed
 	/// </summary>

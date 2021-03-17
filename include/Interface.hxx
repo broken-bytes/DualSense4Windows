@@ -17,9 +17,10 @@ namespace BrokenBytes::DualSense4Windows {
 
 	class DualSense;
 	struct DS_REPORT;
+
 }
 
-namespace BrokenBytes::DualSense4Windows {
+namespace BrokenBytes::DualSense4Windows::IO {
 	// Hardware IDs
 	constexpr uint16_t SONY = 0x054C;
 	constexpr uint16_t DS = 0x0CE6;

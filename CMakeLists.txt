@@ -3,6 +3,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(APP DualSense4Windows)
+set(QT E:/libs/Qt/6.0.2/6.0.2/msvc2019_64)
 set(ASSET_PACKER AssetPacker)
 project(${APP})
 
@@ -10,46 +11,48 @@ project(${APP})
 set(CMAKE_SUPPRESS_REGENERATION true)
 set(SRC_INC
 	include/Core.hxx
-	include/ControllerKit.hxx
+	include/DualSense4Windows.hxx
 	include/DualSense.hxx
 	include/Math.hxx
 	include/Utils.hxx
-	include/App.hxx
 	include/Interface.hxx
 	include/Types.hxx
 	include/Window.hxx
 	include/MainWindow.hxx
 	include/ColorPicker.hxx
 	include/DualSenseInfo.hxx
+	include/DualSenseList.hxx
+	include/DualSenseEntryWidget.hxx
 )
 
 set(SRC
-	src/ControllerKit.cxx
+	src/DualSense4Windows.cxx
 	src/DualSense.cxx
 	src/Utils.cxx
-	src/App.cxx
 	src/Interface.cxx
 	src/MainWindow.cxx
 	src/ColorPicker.cxx
+	src/DualSenseList.cxx
+	src/DualSenseEntryWidget.cxx
 	DualSense4Windows.exe.manifest
 	DeclareDPIAware.manifest
 )
 
 set(ASSETS "$<TARGET_FILE_DIR:${APP}>/assets")
 
-#add_executable(AssetPacker 	include/Base64.hxx 	src/Base64.cxx src/AssetPacker.cxx)
-#target_include_directories(${ASSET_PACKER} PUBLIC external/gumbo)
-#target_link_directories(${ASSET_PACKER} PUBLIC lib/)
-#target_link_libraries(${ASSET_PACKER} gumbo.lib)
-
 
 add_executable(${APP} WIN32 ${SRC} ${SRC_INC})
 target_link_directories(${APP} PUBLIC lib/)
+target_link_directories(${APP} PUBLIC ${QT}/lib)
 target_link_libraries(${APP} comctl32.lib)
 target_link_libraries(${APP} hidapi.lib)
-target_link_libraries(${APP} setupapi)
+target_link_libraries(${APP} setupapi.lib)
 target_link_libraries(${APP} ViGEmClient.lib)
+target_link_libraries(${APP} Qt6Core.lib)
+target_link_libraries(${APP} Qt6GUI.lib)
+target_link_libraries(${APP} Qt6Widgets.lib)
 target_include_directories(${APP} PUBLIC external/)
+target_include_directories(${APP} PUBLIC ${QT}/include)
 target_include_directories(${APP} PRIVATE include/)
 
 

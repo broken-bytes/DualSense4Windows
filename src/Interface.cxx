@@ -9,7 +9,7 @@
 #include "DualSense.hxx"
 #include "Utils.hxx"
 
-namespace BrokenBytes::DualSense4Windows {
+namespace BrokenBytes::DualSense4Windows::IO {
 	/// <summary>
 	/// Callback used for ViGEm notification when in DS4 Mode.
 	/// </summary>

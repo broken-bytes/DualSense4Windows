@@ -1,62 +1,78 @@
 #pragma once
 
 #include <map>
-#include <vector>
+#include <string>
+#include <memory>
+#include <array>
 #include <sigslot/signal.hpp>
 
+#include <Qt/QtWidgets/QMainWindow>
+#include <Qt/QtWidgets/QGridLayout>
+
 #include "ColorPicker.hxx"
+#include "Core.hxx"
+
 #include "DualSense.hxx"
+#include "DualSenseEntryWidget.hxx"
+#include "DualSenseList.hxx"
 #include "Window.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
+	constexpr wchar_t* WINDOW_NAME = L"DualSense4Windows";
+	constexpr uint32_t WINDOW_WIDTH = 800;
+	constexpr uint32_t WINDOW_HEIGHT = 600;
 	
-	enum class Dimensions : uint16_t {
-		VSpacer = 8,
-		HSpacer = 1,
-		NameWidth = 30,
-		ConnectionWidth = 10,
-		ColorSize = 15,
-		HideWidth = 10,
-		BaseHeight = 16
-	};
-	
-	class MainWindow : public Window {
-	public:
-		sigslot::signal<> DevicesChanged;
-		sigslot::signal<uint8_t, Color> ColorChanged;
-		
+	class MainWindow : public QMainWindow {
+    public:
 		/// <summary>
-		/// Creates a new instance of this window
+		/// Called when the MainWindow starts
 		/// </summary>
-		/// <param name="width">The width of the window</param>
-		/// <param name="height">The height of the window</param>
-		MainWindow(LPCWSTR title, uint16_t width, uint16_t height);
-		
-		void Show() override;
-		void Hide() override;
+		SIGNAL<> MainWindowStarted;
+		/// <summary>
+		/// Called when the MainWindow receives a device change event
+		/// </summary>
+		SIGNAL<std::vector<char*>> DevicesChanged;
 
 		/// <summary>
-		/// Changes the device list of this window
+		/// Called when the MainWindow triggers a color picker change
 		/// </summary>
-		/// <param name="devices">The devices</param>
-		void DualSenseDevicesChanged(std::vector<char*> devices);
+		SIGNAL<uint8_t, Color> ColorChanged;
 
-	protected:
-		LRESULT CALLBACK ProcessEvent(UINT uMsg, WPARAM wParam, LPARAM lParam) override;
+		/// <summary>
+		/// Creates an MainWindow instance
+		/// </summary>
+		MainWindow();
+	    ~MainWindow();
+	
+		/// <summary>
+		/// Runs the MainWindow loop
+		/// </summary>
+		void Run();
+
+	    /// <summary>
+	    /// Called on Update
+	    /// </summary>
+	    void OnUpdate();
+
+	    /// <summary>
+	    /// Called on close of the MainWindow
+	    /// </summary>
+	    void OnClose();
+	    
+		// Slots
+		/// <summary>
+		/// Called when the number of DualSense devices connected changes
+		/// </summary>
+		/// <param name="devices"></param>
+		SLOT DualSenseDevicesChanged(std::vector<char*> devices);
+
 
 	private:
-		std::unique_ptr<ColorPicker> _picker;
-		std::vector<char*> _devices;
-		std::vector<DualSenseInfo> _info;
-		HWND _tabView;
-		HWND _listView;
-		std::map<std::wstring, HWND> _tabs;
-
-		void ShowColorPicker();
+		std::shared_ptr<UI::Window> _mainWindow;
+		std::shared_ptr<UI::Window> _window;
+		std::unique_ptr<QGridLayout> _layout;
+		std::unique_ptr<DualSenseList> _list;
 		
-		HWND CreateTabControl();
-		HWND CreateListViewControl();
-		void AddControls(char* id, int index);
-		void RemoveControls(char* id);
-	};
+		void RegisterWindows();
+    }; 
 }
