@@ -2,10 +2,6 @@
 
 #include <cstdint>
 #include <string>
-#include <Uxtheme.h>
-#include <CommCtrl.h>
-#include <WindowsX.h>
-#include <Uxtheme.h>
 
 #include "Core.hxx"
 #include "Math.hxx"
