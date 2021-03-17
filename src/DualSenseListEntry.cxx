@@ -1,7 +1,7 @@
-#include "DualSenseEntryWidget.hxx"
+#include "DualSenseListEntry.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
-	DualSenseEntryWidget::DualSenseEntryWidget() {
+	DualSenseListEntry::DualSenseListEntry() {
 		_layout = std::make_unique<QHBoxLayout>(this);
 		_icon = std::make_unique<QPushButton>(this);
 		_text = std::make_unique<QLabel>(this);
@@ -11,7 +11,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		_layout->addWidget(_state.get());
 	}
 
-	DualSenseEntryWidget::DualSenseEntryWidget(std::string name, bool state, float battery) : DualSenseEntryWidget() {
+	DualSenseListEntry::DualSenseListEntry(std::string name, bool state, float battery) : DualSenseListEntry() {
 		_text->setText(name.c_str());
 	}
 
