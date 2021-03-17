@@ -6,10 +6,10 @@
 #include <QtWidgets/QLabel>
 
 namespace BrokenBytes::DualSense4Windows::UI {
-	class DualSenseEntryWidget : public QWidget {
+	class DualSenseListEntry : public QWidget {
 	public:
-		DualSenseEntryWidget();
-		DualSenseEntryWidget(std::string name, bool state, float battery);
+		DualSenseListEntry();
+		DualSenseListEntry(std::string name, bool state, float battery);
 
 	private:
 		std::unique_ptr<QHBoxLayout> _layout;

@@ -7,7 +7,8 @@
 
 
 #include "Core.hxx"
-#include "DualSenseEntryWidget.hxx"
+#include "DualSenseListEntry.hxx"
+#include "DualSenseListHeader.hxx"
 
 namespace BrokenBytes::DualSense4Windows::UI {
 	class DualSenseList : public QWidget {
@@ -17,6 +18,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 
 	private:
 		std::unique_ptr<QVBoxLayout> _layout;
-		std::vector<std::unique_ptr<DualSenseEntryWidget>> _entries;
+		std::unique_ptr<DualSenseListHeader> _header;
+		std::vector<std::unique_ptr<DualSenseListEntry>> _entries;
 	};
 }

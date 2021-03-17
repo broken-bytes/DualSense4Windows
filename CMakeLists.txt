@@ -22,7 +22,8 @@ set(SRC_INC
 	include/ColorPicker.hxx
 	include/DualSenseInfo.hxx
 	include/DualSenseList.hxx
-	include/DualSenseEntryWidget.hxx
+	include/DualSenseListHeader.hxx
+	include/DualSenseListEntry.hxx
 )
 
 set(SRC
@@ -33,7 +34,8 @@ set(SRC
 	src/MainWindow.cxx
 	src/ColorPicker.cxx
 	src/DualSenseList.cxx
-	src/DualSenseEntryWidget.cxx
+	src/DualSenseListHeader.cxx
+	src/DualSenseListEntry.cxx
 	DualSense4Windows.exe.manifest
 	DeclareDPIAware.manifest
 )

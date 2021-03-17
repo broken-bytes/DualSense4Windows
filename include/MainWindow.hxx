@@ -13,7 +13,6 @@
 #include "Core.hxx"
 
 #include "DualSense.hxx"
-#include "DualSenseEntryWidget.hxx"
 #include "DualSenseList.hxx"
 #include "Window.hxx"
 
