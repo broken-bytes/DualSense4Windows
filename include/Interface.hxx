@@ -1,10 +1,11 @@
 #pragma once
 
+#include <qobject.h>
+#include <qwidget.h>
 #include "Core.hxx"
 #include <map>
 #include <vector>
 #include <ViGEm/Client.h>
-#include <sigslot/signal.hpp>
 
 #include "Types.hxx"
 
@@ -26,14 +27,15 @@ namespace BrokenBytes::DualSense4Windows::IO {
 	constexpr uint16_t DS = 0x0CE6;
 	constexpr int8_t DS_INTERFACE = 0x03;
 
-	class Interface {
-	public:
+	class Interface : public QObject {
+		Q_OBJECT
+	signals:
 		/// <summary>
 		/// The signal used for device change notifications
 		/// </summary>
-		sigslot::signal < std::vector<char*>> DevicesChanged;
+		void DevicesChanged(std::vector<char*> devices);
 
-
+	public:
 		/// <summary>
 		/// Creates a new object
 		/// Note: This does not init the interface
@@ -43,16 +45,12 @@ namespace BrokenBytes::DualSense4Windows::IO {
 		/// Inits the Interface
 		/// </summary>
 		void Init();
-		
+
 		/// <summary>
 		/// Gets all DualSense devices connected
 		/// </summary>
 		/// <returns>A map of devices, by HID path and instance </returns>
 		std::vector<char*> GetDualSenses();
-		/// <summary>
-		/// Updates the list of connected DualSenses
-		/// </summary>
-		void UpdateDualSenseDevices();
 
 		/// <summary>
 		/// Creates a new virtual device with type
@@ -77,12 +75,18 @@ namespace BrokenBytes::DualSense4Windows::IO {
 		void SetColor(uint8_t ID, DS_LIGHTBARCOLOR c);
 
 		// Slots
+	public slots:
+		/// <summary>
+		/// Updates the list of connected DualSenses
+		/// </summary>
+		void UpdateDualSenseDevices();
+
 
 	private:
 		PVIGEM_CLIENT _client;
 		std::map<char*, DualSense*> _devices;
 		std::map<char*, PVIGEM_TARGET> _virtualDevices;
-		
+
 		void InitViGEmClient();
 	};
 }

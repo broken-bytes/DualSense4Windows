@@ -11,7 +11,10 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		_list = std::make_unique<DualSenseList>(this);
 		_list->setFixedSize(1024, 256);
 		setCentralWidget(_list.get());
-		DevicesChanged.connect(&DualSenseList::Refresh, _list.get());
+		QObject::connect(
+			_list.get(), &DualSenseList::Refresh,
+			this, &MainWindow::DualSenseDevicesChanged
+		);
 		setPalette({ Qt::gray, {35 , 35, 50} });
 	}
 	
@@ -21,7 +24,8 @@ namespace BrokenBytes::DualSense4Windows::UI {
 	void MainWindow::OnClose() {}
 	void MainWindow::RegisterWindows() {}
 
-	void MainWindow::DualSenseDevicesChanged(std::vector<char*> devices) {
+	void MainWindow::DualSenseDevicesChanged(std::vector<char*> devices) {\
+		OutputDebugStringW(L"Update\n");
 		DevicesChanged(devices);
 	}
 }

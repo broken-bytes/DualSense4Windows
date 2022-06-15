@@ -12,9 +12,11 @@
 
 namespace BrokenBytes::DualSense4Windows::UI {
 	class DualSenseList : public QWidget {
+		Q_OBJECT
 	public:
 		DualSenseList(QWidget* parent);
-		SLOT Refresh(std::vector<char*>& list);
+	public slots: 
+		void Refresh(std::vector<char*> list);
 
 	private:
 		std::unique_ptr<QVBoxLayout> _layout;

@@ -2,6 +2,7 @@
 #include <memory>
 
 #include <QtWidgets/QApplication>
+#include <qtimer.h>
 #include <QtWidgets/QPushButton>
 
 #include "DualSense4Windows.hxx"
@@ -38,14 +39,22 @@ int main(int argc, char** argv) {
 	int args = 0;
 	std::cout << *argv << std::endl;
 	App = std::make_unique<QApplication>(argc, argv);
+	auto timer = new QTimer();
+	timer->setInterval(500);
 	Interface = std::make_unique<IO::Interface>();
+	QObject::connect(
+		timer, &QTimer::timeout,
+		Interface.get(), &IO::Interface::UpdateDualSenseDevices
+	);
+	timer->start();
+
 	Window = std::make_unique<UI::MainWindow>();
-	Interface->DevicesChanged.connect(
-		&UI::MainWindow::DualSenseDevicesChanged,
-		Window.get()
+	QObject::connect(
+		Interface.get(), &IO::Interface::DevicesChanged,
+		Window.get(), &UI::MainWindow::DualSenseDevicesChanged
 	);
 	Interface->Init();
-	Window->setFixedWidth(1025);
+	Window->setFixedWidth(1280);
 	Window->setFixedHeight(768);
 	Window->show();
 	return App->exec();

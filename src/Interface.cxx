@@ -58,7 +58,7 @@ namespace BrokenBytes::DualSense4Windows::IO {
 		}
 	}
 	
-	Interface::Interface() {
+	Interface::Interface() : QObject(nullptr) {
 		_client = nullptr;
 	}
 
@@ -101,7 +101,12 @@ namespace BrokenBytes::DualSense4Windows::IO {
 	}
 
 	void Interface::UpdateDualSenseDevices() {
+		OutputDebugStringW(L"Updating Interface\n");
 		auto dualsenses = GetDualSenses();
+		for (auto& sense : dualsenses) {
+			OutputDebugStringA(sense);
+		}
+
 
 		// Check if a device is no longer present
 		for (auto ds : _devices) {

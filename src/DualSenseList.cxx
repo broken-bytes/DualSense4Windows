@@ -8,7 +8,7 @@ namespace BrokenBytes::DualSense4Windows::UI {
 		_layout->addWidget(_header.get());
 	}
 
-	void DualSenseList::Refresh(std::vector<char*>& list) {
+	void DualSenseList::Refresh(std::vector<char*> list) {
 		for (auto& item : _entries) {
 			_layout->removeWidget(item.get());
 		}

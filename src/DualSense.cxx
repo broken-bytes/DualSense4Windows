@@ -45,7 +45,6 @@ namespace BrokenBytes::DualSense4Windows {
 		wchar_t* str = nullptr;
 			
 		if(hid_get_manufacturer_string(_device, str, 64) != 0) {
-			str = L"";
 		}
 
 		auto err = hid_error(_device);
